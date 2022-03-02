@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { h } from 'vue'
 import { ElMessage, ElLoading } from 'element-plus'
-import type { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios'
+import type { AxiosInstance, AxiosRequestConfig } from 'axios'
 interface JAxiosRequestInterceptor {
   //todo这个接口是为了让这个AxiosRequestConfig(axios里面对TS定义的接口)可以接受函数
   requestInterceptor?: (config: AxiosRequestConfig) => AxiosRequestConfig //todo这个是axios里面的类型 如果不知道写void其实也可以
