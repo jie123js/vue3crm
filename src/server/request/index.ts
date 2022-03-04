@@ -37,7 +37,7 @@ class JRequest {
     //! 这个是让每个请求拦截器都有
     this.instance.interceptors.request.use(
       (config) => {
-        console.log('统一请求拦截')
+        //console.log('统一请求拦截')
         //todo 为什么要把这个值取出来 是因为我们还需要在下面的函数关闭这个loading
         //ele-plus文档也有说明
         if (this.showLoading) {
@@ -58,11 +58,11 @@ class JRequest {
     )
     this.instance.interceptors.response.use(
       (res) => {
-        console.log(res, '响应')
+        //  console.log(res, '响应')
 
         this.LoadingService.close()
 
-        console.log('响应成功拦截')
+        //console.log('响应成功拦截')
         const data = res.data
         if (data.returnCode === '-1001') {
           console.log('请求错误')
@@ -107,7 +107,7 @@ class JRequest {
           if (config.interceptors?.responseInterceptor) {
             res = config.interceptors.responseInterceptor(res)
           }
-          console.log(res)
+          //console.log(res)
           resolve(res)
         })
         .catch((err) => {
@@ -115,6 +115,19 @@ class JRequest {
           return err
         })
     })
+  }
+
+  get<T>(config: JRequestConfig): Promise<T> {
+    return this.request<T>({ ...config, method: 'get' })
+  }
+  post<T>(config: JRequestConfig): Promise<T> {
+    return this.request<T>({ ...config, method: 'post' })
+  }
+  delete<T>(config: JRequestConfig): Promise<T> {
+    return this.request<T>({ ...config, method: 'delete' })
+  }
+  patch<T>(config: JRequestConfig): Promise<T> {
+    return this.request<T>({ ...config, method: 'patch' })
   }
 }
 

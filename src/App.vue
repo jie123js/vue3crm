@@ -1,7 +1,4 @@
 <template>
-  <div>{{ $store.state.name }}</div>
-  <router-link to="/main">mian</router-link>
-  <router-link to="/login">login</router-link>
   <router-view></router-view>
 </template>
 
@@ -16,6 +13,7 @@ export default defineComponent({
 
 <style lang="less">
 .app {
+  width: 100%;
   height: 100%;
 }
 </style>
