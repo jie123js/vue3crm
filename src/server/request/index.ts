@@ -100,14 +100,17 @@ class JRequest {
       if (config.interceptors?.requestInterceptor) {
         config = config.interceptors.requestInterceptor(config)
       }
-
+      // 2.判断是否需要显示loading
+      if (config.isLoading === false) {
+        this.showLoading = config.isLoading
+      }
       this.instance
         .request<any, T>(config)
         .then((res) => {
           if (config.interceptors?.responseInterceptor) {
             res = config.interceptors.responseInterceptor(res)
           }
-          //console.log(res)
+          console.log(res)
           resolve(res)
         })
         .catch((err) => {

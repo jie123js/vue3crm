@@ -6,7 +6,9 @@ const jRequest = new JRequest({
   timeout: TIME_OUT,
   interceptors: {
     requestInterceptor: function (config) {
-      // console.log('请求拦截器')
+      console.log('请求拦截器')
+      console.log(config)
+
       return config
     },
     responseInterceptor: function (res) {

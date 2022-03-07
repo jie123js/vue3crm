@@ -2,14 +2,14 @@
   <div class="j-login">
     <div class="login-panel">
       <h1 class="title">后台管理系统</h1>
-      <el-tabs type="border-card" stretch>
-        <el-tab-pane>
+      <el-tabs type="border-card" stretch v-model="currentTab">
+        <el-tab-pane name="account">
           <template #label>
             <span><i class="el-icon-user-solid"></i> 账号登录</span>
           </template>
           <login-account ref="accountRef" />
         </el-tab-pane>
-        <el-tab-pane>
+        <el-tab-pane name="phone">
           <template #label>
             <span><i class="el-icon-mobile-phone"></i> 手机登录</span>
           </template>
@@ -36,17 +36,25 @@ export default defineComponent({
     loginAccount,
     loginPhone
   },
+  name: 'Login',
   setup() {
     const isKeepPassword = ref(false)
     //todo 这个类型本来是可以不写的(不写就是any类型),但是写了如果你写没有的东西会报错更安全
     const accountRef = ref<InstanceType<typeof loginAccount>>()
+    const phoneRef = ref<InstanceType<typeof loginAccount>>()
+    const currentTab = ref('account')
     const handleLoginClick = () => {
-      accountRef.value?.loginAction()
+      if (currentTab.value === 'account') {
+        accountRef.value?.loginAction(isKeepPassword.value)
+      } else {
+        phoneRef.value?.loginAction(isKeepPassword.value)
+      }
     }
     return {
       isKeepPassword,
       accountRef,
-      handleLoginClick
+      handleLoginClick,
+      currentTab
     }
   }
 })
