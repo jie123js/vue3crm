@@ -29,9 +29,9 @@ export default defineComponent({
 
     const loginAction = (isKeepPassword: boolean) => {
       formRef.value?.validate((valid) => {
-        console.log(valid)
+        //console.log(valid)
         if (valid) {
-          console.log('真正执行登录逻辑')
+          //  console.log('真正执行登录逻辑')
           // 1.判断是否需要记住密码
           if (isKeepPassword) {
             // 本地缓存

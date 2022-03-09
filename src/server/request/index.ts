@@ -60,7 +60,7 @@ class JRequest {
       (res) => {
         //  console.log(res, '响应')
 
-        this.LoadingService.close()
+        this.LoadingService?.close()
 
         //console.log('响应成功拦截')
         const data = res.data
@@ -110,7 +110,7 @@ class JRequest {
           if (config.interceptors?.responseInterceptor) {
             res = config.interceptors.responseInterceptor(res)
           }
-          console.log(res)
+          // console.log(res)
           resolve(res)
         })
         .catch((err) => {

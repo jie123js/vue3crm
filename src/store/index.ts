@@ -23,9 +23,9 @@ const store = createStore<IRootState>({
     login
   }
 })
-
+//todo这个函数是因为页面手动刷新的话,会把vuex里面保存的数据清空,这个函数是为了防止清空
 export function setupStore() {
-  // store.dispatch('login/loadLocalLogin')
+  store.dispatch('login/loadLocalLogin')
 }
 
 export default store

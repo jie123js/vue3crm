@@ -9,9 +9,10 @@ enum LoginAPI {
 }
 
 export function accountLoginRequest(account: IAccount) {
-  return jRequest.post({
+  return jRequest.post<IDataType<ILoginResult>>({
     url: LoginAPI.AccountLogin,
-    data: account
+    data: account,
+    isLoading: false
   })
 }
 

@@ -7,10 +7,21 @@ import 'element-plus/dist/index.css'
 import jRequest from '@/server'
 import '@/assets/css/index.less'
 import 'normalize.css'
+import { setupStore } from '@/store'
+// 导入所有的el-icon图标
+import * as ElIconModules from '@element-plus/icons-vue'
+
 const app = createApp(App)
-app.use(router)
+// for (let iconName in ElIconModules) {
+//   app.component(iconName, ElIconModules as any[iconName])
+// }
+
 app.use(store)
 app.use(ElementPlus)
+
+//todo手动刷新重新从缓存读vuex数据
+setupStore()
+app.use(router)
 app.mount('#app')
 //createApp(App).mount('#app')
 //console.log(process.env)
