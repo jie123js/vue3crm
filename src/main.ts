@@ -4,10 +4,11 @@ import router from '@/router'
 import store from '@/store'
 import ElementPlus from 'element-plus'
 import 'element-plus/dist/index.css'
-import jRequest from '@/server'
+import { globalRegister } from './global'
 import '@/assets/css/index.less'
 import 'normalize.css'
 import { setupStore } from '@/store'
+import zhCn from 'element-plus/es/locale/lang/zh-cn'
 // 导入所有的el-icon图标
 import * as ElIconModules from '@element-plus/icons-vue'
 
@@ -15,10 +16,12 @@ const app = createApp(App)
 // for (let iconName in ElIconModules) {
 //   app.component(iconName, ElIconModules as any[iconName])
 // }
-
+app.use(ElementPlus, {
+  locale: zhCn
+})
 app.use(store)
 app.use(ElementPlus)
-
+app.use(globalRegister)
 //todo手动刷新重新从缓存读vuex数据
 setupStore()
 app.use(router)

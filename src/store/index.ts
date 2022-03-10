@@ -2,7 +2,7 @@
 import { createStore } from 'vuex'
 
 import login from './login/login'
-
+import system from './main/system/system'
 import { IRootState } from './types'
 //这个IRootState可写可不写吧 我个人觉得,就是写state的时候做限制
 const store = createStore<IRootState>({
@@ -20,7 +20,8 @@ const store = createStore<IRootState>({
     }
   },
   modules: {
-    login
+    login,
+    system
   }
 })
 //todo这个函数是因为页面手动刷新的话,会把vuex里面保存的数据清空,这个函数是为了防止清空
