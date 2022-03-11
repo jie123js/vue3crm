@@ -6,10 +6,15 @@
       </template>
       <template #footer>
         <div class="handle-btns">
-          <el-button icon="el-icon-refresh" @click="handleResetClick"
+          <el-button icon="el-icon-refresh" @click="handleResetClick()"
             >重置</el-button
           >
-          <el-button type="primary" icon="el-icon-search">搜索</el-button>
+          <el-button
+            type="primary"
+            icon="el-icon-search"
+            @click="handleResetClick(formData)"
+            >搜索</el-button
+          >
         </div>
       </template>
     </j-form>
@@ -30,7 +35,8 @@ export default defineComponent({
   components: {
     JForm
   },
-  setup(props) {
+  emits: ['handeleSearch'],
+  setup(props, { emit }) {
     // 双向绑定的属性应该是由配置文件的field来决定
     // 1.优化一: formData中的属性应该动态来决定
     const formItems = props.searchFormConfig?.formItems ?? []
@@ -41,12 +47,19 @@ export default defineComponent({
     const formData = ref(formOriginData)
 
     // 2.优化二: 当用户点击重置
-    const handleResetClick = () => {
-      formData.value = formOriginData
-      // for (const key in formOriginData) {
-      //   formData.value[`${key}`] = formOriginData[key]
-      // }
+    const handleResetClick = (queryInfo = []) => {
+      // formData.value = formOriginData
+      if (queryInfo.length === 0) {
+        emit('handeleSearch')
+        for (const key in formOriginData) {
+          formData.value[`${key}`] = formOriginData[key]
+        }
+      } else {
+        emit('handeleSearch', formData.value)
+      }
     }
+
+    //  console.log(formData.value)
 
     return {
       formData,
@@ -65,3 +78,6 @@ export default defineComponent({
   padding: 0 50px 20px 0;
 }
 </style>
+
+function emit(arg0: string, queryInfo: any[]) { throw new Error('Function not
+implemented.') }

@@ -58,6 +58,10 @@ import { IFormItem } from '../types'
 
 export default defineComponent({
   props: {
+    // formData: {
+    //   type: Object,
+    //   default: () => {}
+    // },
     modelValue: {
       type: Object,
       required: true
@@ -87,6 +91,8 @@ export default defineComponent({
   },
   emits: ['update:modelValue'],
   setup(props, { emit }) {
+    console.log(props)
+
     const formData = ref({ ...props.modelValue })
     watch(
       formData,
