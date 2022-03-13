@@ -42,11 +42,11 @@
         <el-pagination
           @size-change="handleSizeChange"
           @current-change="handleCurrentChange"
-          :current-page="currentPage4"
-          :page-sizes="[100, 200, 300, 400]"
-          :page-size="100"
+          :current-page="page.currentPage"
+          :page-sizes="[10, 20, 30]"
+          :page-size="page.pageSize"
           layout="total, sizes, prev, pager, next, jumper"
-          :total="400"
+          :total="total"
         >
         </el-pagination>
       </slot>
@@ -78,16 +78,37 @@ export default defineComponent({
     showSelectColumn: {
       type: Boolean,
       default: false
+    },
+    total: {
+      type: Number,
+      default: 10
+    },
+    page: {
+      type: Object,
+      default: () => ({ currentPage: 0, pageSize: 10 })
     }
   },
-  emits: ['selectionChange'],
+  emits: ['selectionChange', 'update:page'],
   setup(props, { emit }) {
     const handleSelectionChange = (value: any) => {
       emit('selectionChange', value)
     }
-
+    const handleCurrentChange = (val: number) => {
+      console.log(val)
+      //todo 一步步的理解过程,老师的是名字取的一样可以直接currentPage:currentPage,我取的是val所以不可以
+      // emit('update-page', val)
+      //emit('update:page', { ...props.page, currentPage })
+      emit('update:page', { ...props.page, currentPage: val })
+    }
+    const handleSizeChange = (val: number) => {
+      console.log(val)
+      // emit('update-page', val)
+      emit('update:page', { ...props.page, pageSize: val })
+    }
     return {
-      handleSelectionChange
+      handleSelectionChange,
+      handleCurrentChange,
+      handleSizeChange
     }
   }
 })

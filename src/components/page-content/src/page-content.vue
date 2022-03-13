@@ -1,6 +1,11 @@
 <template>
   <div class="page-content">
-    <j-table :listData="dataList" v-bind="contentTableConfig">
+    <j-table
+      :listData="dataList"
+      v-bind="contentTableConfig"
+      v-model:page="pagerData"
+      :total="pageCount"
+    >
       <!-- 1.header中的插槽 -->
       <template #headerHandler>
         <el-button type="primary" size="default">新建用户</el-button>
@@ -33,7 +38,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed } from 'vue'
+import { defineComponent, computed, ref, watch } from 'vue'
 import { useStore } from 'vuex'
 
 import JTable from '@/base-ui/table'
@@ -54,14 +59,21 @@ export default defineComponent({
   },
   setup(props) {
     const store = useStore()
-    const getTableList = (searchInfo = {}) => {
-      console.log('api')
 
+    const pagerData = ref({
+      currentPage: 0,
+      pageSize: 10
+    })
+    watch(pagerData, () => {
+      getTableList()
+    })
+    const getTableList = (searchInfo = {}) => {
       store.dispatch('system/getPageListAction', {
         pageName: props.pageName,
         queryInfo: {
-          offset: 0,
-          size: 10,
+          //todo 这个offset是他这个接口的计算方式,正常接口应该都是页数 所以这里不用纠结
+          offset: pagerData.value.currentPage * pagerData.value.pageSize,
+          size: pagerData.value.pageSize,
           ...searchInfo
         }
       })
@@ -70,11 +82,16 @@ export default defineComponent({
     const dataList = computed(() =>
       store.getters[`system/pageListData`](props.pageName)
     )
-    // const userCount = computed(() => store.state.system.userCount)
+
+    const pageCount = computed(() =>
+      store.getters[`system/pageTotalData`](props.pageName)
+    )
 
     return {
       dataList,
-      getTableList
+      getTableList,
+      pagerData,
+      pageCount
     }
   }
 })
