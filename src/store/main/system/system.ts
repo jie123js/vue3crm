@@ -11,7 +11,11 @@ const systemModule = {
       usersList: [],
       usersCount: 0,
       roleList: [],
-      roleCount: 0
+      roleCount: 0,
+      goodsList: [],
+      goodsCount: 0,
+      menuList: [],
+      menuCount: 0
     }
   },
   mutations: {
@@ -26,6 +30,18 @@ const systemModule = {
     },
     changeRoleCount(state: { roleCount: number }, count: number) {
       state.roleCount = count
+    },
+    changeGoodsList(state: { goodsList: any[] }, list: any[]) {
+      state.goodsList = list
+    },
+    changeGoodsCount(state: { goodsCount: number }, count: number) {
+      state.goodsCount = count
+    },
+    changeMenuList(state: { menuList: any[] }, list: any[]) {
+      state.menuList = list
+    },
+    changeMenuCount(state: { menuCount: number }, count: number) {
+      state.menuCount = count
     }
   },
   getters: {

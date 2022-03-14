@@ -33,6 +33,15 @@
           <el-button size="small" type="text">删除</el-button>
         </div>
       </template>
+      <template
+        v-for="slotName in otherSlotList"
+        :key="slotName.prop"
+        #[slotName.slotName]="scope"
+      >
+        <template v-if="slotName.slotName">
+          <slot :name="slotName.slotName" :row="scope.row"> </slot>
+        </template>
+      </template>
     </j-table>
   </div>
 </template>
@@ -61,7 +70,7 @@ export default defineComponent({
     const store = useStore()
 
     const pagerData = ref({
-      currentPage: 0,
+      currentPage: 1,
       pageSize: 10
     })
     watch(pagerData, () => {
@@ -71,8 +80,8 @@ export default defineComponent({
       store.dispatch('system/getPageListAction', {
         pageName: props.pageName,
         queryInfo: {
-          //todo 这个offset是他这个接口的计算方式,正常接口应该都是页数 所以这里不用纠结
-          offset: pagerData.value.currentPage * pagerData.value.pageSize,
+          //todo 这个offset是他这个接口的计算方式,正常接口应该都是页数 所以这里不用纠结------why老师发现了问题且修改了
+          offset: (pagerData.value.currentPage - 1) * pagerData.value.pageSize,
           size: pagerData.value.pageSize,
           ...searchInfo
         }
@@ -86,12 +95,21 @@ export default defineComponent({
     const pageCount = computed(() =>
       store.getters[`system/pageTotalData`](props.pageName)
     )
-
+    const otherSlotList = props.contentTableConfig?.propList.filter(
+      (item: any) => {
+        if (item.slotName === 'status') return false
+        if (item.slotName === 'createAt') return false
+        if (item.slotName === 'updateAt') return false
+        if (item.slotName === 'handler') return false
+        return true
+      }
+    )
     return {
       dataList,
       getTableList,
       pagerData,
-      pageCount
+      pageCount,
+      otherSlotList
     }
   }
 })

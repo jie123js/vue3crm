@@ -28,7 +28,7 @@
         width="80"
       ></el-table-column>
       <template v-for="propItem in propList" :key="propItem.prop">
-        <el-table-column v-bind="propItem" align="center">
+        <el-table-column v-bind="propItem" align="center" show-overflow-tooltip>
           <template #default="scope">
             <slot :name="propItem.slotName" :row="scope.row">
               {{ scope.row[propItem.prop] }}
@@ -51,6 +51,14 @@
         </el-pagination>
       </slot>
     </div>
+  </div>
+  <div>
+    <img
+      style="width: 100px; height: 100px"
+      src="https://hzemis.hzzhny.com/qt_auth/login/verifyCode?time=1"
+      alt=""
+      srcset=""
+    />
   </div>
 </template>
 
@@ -115,6 +123,14 @@ export default defineComponent({
 </script>
 
 <style scoped lang="less">
+//todo解决图片预览层级过低
+.el-table {
+  & ::v-deep th.el-table__cell,
+  ::v-deep td.el-table__cell {
+    // 设置position 使得 子元素不与其产生新的层叠关系
+    position: static;
+  }
+}
 .header {
   display: flex;
   height: 45px;
